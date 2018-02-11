@@ -25,7 +25,7 @@ def enter_console(C):
             break
         if S(E(inputs)) == 0:
             continue
-        resp = R(4096)
+        resp = R(4096*2)
         if resp != NORESP:
             print(D(resp))
         else:
