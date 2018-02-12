@@ -76,6 +76,8 @@ int main(int argc, char* argv[]) {
   // run in background.
   HANDLE hWnd = GetForegroundWindow();
   ShowWindow(hWnd, SW_HIDE);
+#else
+  daemon(0, 0);
 #endif
   if (argc > 1) {
     strncpy(buff, argv[1], sizeof(buff));
