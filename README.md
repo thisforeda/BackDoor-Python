@@ -4,6 +4,9 @@
 > There is also a C version client side program Support Linux & Windows.
 > WARN: (Server <=> Client communications not encrypted)
 
+### Demo
+
+![](demo.gif)
 
 ### Compile C version `knocknock.c`
 ```bash
