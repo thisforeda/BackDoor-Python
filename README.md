@@ -1,5 +1,15 @@
 > A simple Backdoor CONSOLE, Support both Python 2 & 3.
 
+> There is also a C version client side program Support Linux & Windows.
+
+### Compile C version `door.c`
+```
+# Windows CL
+$> cl door.c /O1 /D WIN32 /Fe door /link /subsystem:console
+# Windows or Linux gcc
+$> gcc -Wall -O1 door.c -o door
+```
+
 ### Command Line Argument
 ```
 $> ./server.py bind_address:bind_port
