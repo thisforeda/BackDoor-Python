@@ -38,7 +38,7 @@ def enter_console(sock):
         while True:
             buffer = b""
             while True:
-                buffer += R(1024)
+                buffer += R(1)
                 if b"\n" in buffer:
                     break
                 if STREAM_END_SIG in buffer:
