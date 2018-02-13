@@ -11,9 +11,9 @@
 ### Compile C version `knocknock.c`
 ```bash
 # Windows CL
-$> cl knocknock.c /O1 /D WIN32 /link /subsystem:console
+$> cl knocknock.c /O2 /link /subsystem:console
 # Windows or Linux gcc
-$> gcc -Wall -O1 knocknock.c -o knocknock
+$> gcc -Wall -O2 knocknock.c -o knocknock
 ```
 
 ### How To Use?
