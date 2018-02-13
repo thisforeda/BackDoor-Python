@@ -62,8 +62,8 @@ def server(h, p):
             C, addr = sock.accept()
             print("connection from %s:%s" % addr)
             enter_console(C)
-        except:
-            continue
+        except KeyboardInterrupt:
+            return
 
 if __name__ == "__main__":
     import sys
