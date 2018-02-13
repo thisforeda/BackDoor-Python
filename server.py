@@ -36,17 +36,17 @@ def enter_console(sock):
 
         packets = 0
         while True:
-            resp = R(1024)
-            packets += 1
-            if packets == 1 and resp == STREAM_END_SIG:
-                puts("$> !\n")
+            buffer = b""
+            while True:
+                buffer += R(1024)
+                if b"\n" in buffer:
+                    break
+                if STREAM_END_SIG in buffer:
+                    break
+            if STREAM_END_SIG in buffer:
+                puts(D(buffer[:-2]))
                 break
-
-            if STREAM_END_SIG in resp:
-                puts(D(resp[:-2]))
-                break
-
-            puts(D(resp))
+            puts(D(buffer))
 
     sock.close()
 

