@@ -1,7 +1,3 @@
-/*
- * MIT License
- * Copyright (c) 2018 Zhang Yi Da
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
