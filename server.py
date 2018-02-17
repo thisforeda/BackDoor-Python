@@ -64,6 +64,8 @@ def server(h, p):
             enter_console(C)
         except KeyboardInterrupt:
             return
+        except:
+            continue
 
 if __name__ == "__main__":
     import sys

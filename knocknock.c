@@ -73,7 +73,7 @@ void console(char* ip, unsigned short port) {
         break;
     // cleanup
     pipe_close(pipe);
-    if (send(sockfd, "\x00\x00", 2, 0) != 2)
+    if (send(sockfd, "\0\0", 2, 0) != 2)
       break;
   }
   fd_close(sockfd);
